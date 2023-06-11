@@ -50,10 +50,7 @@ public class ApiTests extends TestBase {
     @Test
     @DisplayName("LOGIN - SUCCESSFUL")
     void successLoginTest() {
-        String loginBody = "{\n" +
-                "    \"email\": \"eve.holt@reqres.in\",\n" +
-                "    \"password\": \"cityslicka\"\n" +
-                "}";
+        String loginBody = "{ \"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\" }";
 
         given()
                 .log().uri()
@@ -74,10 +71,7 @@ public class ApiTests extends TestBase {
     @Test
     @DisplayName("CREATE")
     void createUserTest() {
-        String loginBody = "{\n" +
-                "    \"name\": \"morpheus\",\n" +
-                "    \"job\": \"leader\"\n" +
-                "}";
+        String loginBody = "{ \"name\": \"morpheus\", \"job\": \"leader\" }";
 
         given()
                 .log().uri()
@@ -101,10 +95,7 @@ public class ApiTests extends TestBase {
     @Test
     @DisplayName("UPDATE")
     void updateUserTest() {
-        String loginBody = "{\n" +
-                "    \"name\": \"morpheus\",\n" +
-                "    \"job\": \"zion resident\"\n" +
-                "}";
+        String loginBody = "{ \"name\": \"morpheus\", \"job\": \"zion resident\" }";
 
         given()
                 .log().uri()
