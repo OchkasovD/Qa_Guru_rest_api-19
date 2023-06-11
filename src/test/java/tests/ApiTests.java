@@ -49,7 +49,7 @@ public class ApiTests extends TestBase {
 
     @Test
     @DisplayName("LOGIN - SUCCESSFUL")
-    void SuccessLoginTest() {
+    void successLoginTest() {
         String loginBody = "{\n" +
                 "    \"email\": \"eve.holt@reqres.in\",\n" +
                 "    \"password\": \"cityslicka\"\n" +
@@ -73,7 +73,7 @@ public class ApiTests extends TestBase {
 
     @Test
     @DisplayName("CREATE")
-    void CreateUserTest() {
+    void createUserTest() {
         String loginBody = "{\n" +
                 "    \"name\": \"morpheus\",\n" +
                 "    \"job\": \"leader\"\n" +
@@ -100,7 +100,7 @@ public class ApiTests extends TestBase {
 
     @Test
     @DisplayName("UPDATE")
-    void UpdateUserTest() {
+    void updateUserTest() {
         String loginBody = "{\n" +
                 "    \"name\": \"morpheus\",\n" +
                 "    \"job\": \"zion resident\"\n" +
