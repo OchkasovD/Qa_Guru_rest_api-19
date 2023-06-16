@@ -1,6 +1,5 @@
 package tests;
 import static helpers.CustomAllureListener.withCustomTemplates;
-
 import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
 import models.lombok.LoginBodyLombokModel;
@@ -21,7 +20,49 @@ import static specs.specs.*;
 import io.restassured.builder.ResponseSpecBuilder;
 
 public class ReqresInExtendedTests extends TestBase {
+    @Test
+    @DisplayName("REGISTER - SUCCESSFUL")
+    void successRegisterWithLombokModelsTest() {
+        RegistrationBodyLombokModel requestBody = new RegistrationBodyLombokModel();
+        step("Prepare test data", () -> {
+            requestBody.setEmail("eve.holt@reqres.in");
+            requestBody.setPassword("pistol");
+        });
+        RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
+                given()
+                        .spec(registerRequestSpec)
+                        .body(requestBody)
+                        .when()
+                        .post("register")
+                        .then()
+                        .spec(registerResponseSpec)
+                        .extract().as(RegistrationResponseLombokModel.class));
+        step("Check response", () ->
+                assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken()));
+        assertEquals("4", registrationResponse.getId());
 
+    }
+    @Test
+    @DisplayName("REGISTER - UNSUCCESSFUL")
+    void unsuccessfulRegisterWithLombokModelsTest() {
+        RegistrationBodyLombokModel requestBody = new RegistrationBodyLombokModel();
+        step("Prepare test data", () -> {
+            requestBody.setEmail("eve.holt@reqres.in");
+        });
+        RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
+                given()
+                        .spec(registerRequestSpec)
+                        .body(requestBody)
+                        .when()
+                        .post("register")
+                        .then()
+                        .spec(unsuccessRegisterResponseSpec)
+                        .extract().as(RegistrationResponseLombokModel.class));
+        step("Check response", () ->
+                assertEquals("Missing password", registrationResponse.getError()));
+
+
+    }
     @Test
     @DisplayName("LOGIN - SUCCESSFUL")
     void successLoginWithLombokModelsTest() {
@@ -44,28 +85,7 @@ public class ReqresInExtendedTests extends TestBase {
 
        }
 
-    @Test
-    @DisplayName("REGISTER - SUCCESSFUL")
-    void successRegisterWithLombokModelsTest() {
-        RegistrationBodyLombokModel requestBody = new RegistrationBodyLombokModel();
-        step("Prepare test data", () -> {
-            requestBody.setEmail("eve.holt@reqres.in");
-            requestBody.setPassword("pistol");
-        });
-        RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
-                given()
-                        .spec(loginRequestSpec)
-                        .body(requestBody)
-                        .when()
-                        .post("register")
-                        .then()
-                        .spec(registerResponseSpec)
-                        .extract().as(RegistrationResponseLombokModel.class));
-        step("Check response", () ->
-                assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken()));
-        assertEquals("4", registrationResponse.getId());
 
-    }
 
     }
 

@@ -23,11 +23,24 @@ public class specs {
             .expectBody("token", notNullValue())
             .build();
 
+    public static RequestSpecification registerRequestSpec = with()
+            .log().uri()
+            .log().body()
+            .filter(withCustomTemplates())
+            .contentType(JSON);
+
     public static ResponseSpecification registerResponseSpec = new ResponseSpecBuilder()
             .log(STATUS)
             .log(BODY)
             .expectStatusCode(200)
             .expectBody("token", notNullValue())
             .expectBody("id", notNullValue())
+            .build();
+
+    public static ResponseSpecification unsuccessRegisterResponseSpec = new ResponseSpecBuilder()
+            .log(STATUS)
+            .log(BODY)
+            .expectStatusCode(400)
+            .expectBody("error", notNullValue())
             .build();
 }
