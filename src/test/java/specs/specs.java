@@ -43,4 +43,34 @@ public class specs {
             .expectStatusCode(400)
             .expectBody("error", notNullValue())
             .build();
+
+    public static RequestSpecification createRequestSpec = with()
+            .log().uri()
+            .log().body()
+            .filter(withCustomTemplates())
+            .contentType(JSON);
+    public static ResponseSpecification createResponseSpec = new ResponseSpecBuilder()
+            .log(STATUS)
+            .log(BODY)
+            .expectStatusCode(201)
+            .expectBody("name", notNullValue())
+            .expectBody("job", notNullValue())
+            .expectBody("id", notNullValue())
+            .expectBody("createdAt", notNullValue())
+            .build();
+
+
+    public static RequestSpecification updateRequestSpec = with()
+            .log().uri()
+            .log().body()
+            .filter(withCustomTemplates())
+            .contentType(JSON);
+    public static ResponseSpecification updateResponseSpec = new ResponseSpecBuilder()
+            .log(STATUS)
+            .log(BODY)
+            .expectStatusCode(201)
+            .expectBody("name", notNullValue())
+            .expectBody("job", notNullValue())
+            .expectBody("createdAt", notNullValue())
+            .build();
 }

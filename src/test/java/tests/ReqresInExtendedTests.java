@@ -1,23 +1,11 @@
 package tests;
-import static helpers.CustomAllureListener.withCustomTemplates;
-import io.restassured.response.Response;
-import io.restassured.specification.ResponseSpecification;
-import models.lombok.LoginBodyLombokModel;
-import models.lombok.LoginResponseLombokModel;
-import models.lombok.RegistrationBodyLombokModel;
-import models.lombok.RegistrationResponseLombokModel;
+import models.lombok.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
-import static io.restassured.filter.log.LogDetail.BODY;
-import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.qameta.allure.Allure.step;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static specs.specs.*;
-
-import io.restassured.builder.ResponseSpecBuilder;
 
 public class ReqresInExtendedTests extends TestBase {
     @Test
@@ -37,18 +25,17 @@ public class ReqresInExtendedTests extends TestBase {
                         .then()
                         .spec(registerResponseSpec)
                         .extract().as(RegistrationResponseLombokModel.class));
-        step("Check response", () ->
-                assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken()));
-        assertEquals("4", registrationResponse.getId());
-
+        step("Check response", () -> {
+            assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken());
+            assertEquals("4", registrationResponse.getId());
+        });
     }
+
     @Test
     @DisplayName("REGISTER - UNSUCCESSFUL")
     void unsuccessfulRegisterWithLombokModelsTest() {
         RegistrationBodyLombokModel requestBody = new RegistrationBodyLombokModel();
-        step("Prepare test data", () -> {
-            requestBody.setEmail("eve.holt@reqres.in");
-        });
+        step("Prepare test data", () -> requestBody.setEmail("eve.holt@reqres.in"));
         RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
                 given()
                         .spec(registerRequestSpec)
@@ -58,11 +45,10 @@ public class ReqresInExtendedTests extends TestBase {
                         .then()
                         .spec(unsuccessRegisterResponseSpec)
                         .extract().as(RegistrationResponseLombokModel.class));
-        step("Check response", () ->
-                assertEquals("Missing password", registrationResponse.getError()));
-
+        step("Check response", () -> assertEquals("Missing password", registrationResponse.getError()));
 
     }
+
     @Test
     @DisplayName("LOGIN - SUCCESSFUL")
     void successLoginWithLombokModelsTest() {
@@ -70,23 +56,67 @@ public class ReqresInExtendedTests extends TestBase {
         step("Prepare test data", () -> {
             requestBody.setEmail("eve.holt@reqres.in");
             requestBody.setPassword("cityslicka");
-});
+        });
         LoginResponseLombokModel loginResponse = step("Make request", () ->
-                 given()
-                         .spec(loginRequestSpec)
-                         .body(requestBody)
-                         .when()
-                         .post("login")
-                         .then()
-                         .spec(loginResponseSpec)
-                         .extract().as(LoginResponseLombokModel.class));
+                given()
+                        .spec(loginRequestSpec)
+                        .body(requestBody)
+                        .when()
+                        .post("login")
+                        .then()
+                        .spec(loginResponseSpec)
+                        .extract().as(LoginResponseLombokModel.class));
+        step("Check response", () -> assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken()));
+    }
+
+    @Test
+    @DisplayName("CREATE")
+    void createUserLombokModelsTest() {
+        UserBodyLombokModel requestBody = new UserBodyLombokModel();
+        step("Prepare test data", () -> {
+            requestBody.setName("morpheus");
+            requestBody.setJob("leader");
+        });
+        UserResponseLombokModel createResponse = step("Make request", () ->
+                given()
+                        .spec(createRequestSpec)
+                        .body(requestBody)
+                        .when()
+                        .post("users")
+                        .then()
+                        .spec(createResponseSpec)
+                        .extract().as(UserResponseLombokModel.class));
         step("Check response", () ->
-                assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken()));
-
-       }
-
-
+        {
+            assertEquals("morpheus", createResponse.getName());
+            assertEquals("leader", createResponse.getJob());
+        });
 
     }
 
 
+    @Test
+    @DisplayName("UPDATE")
+    void updateUserLombokModelsTest() {
+        UserBodyLombokModel requestBody = new UserBodyLombokModel();
+        step("Prepare test data", () -> {
+            requestBody.setName("morpheus");
+            requestBody.setJob("zion resident");
+        });
+        UserResponseLombokModel updateResponse = step("Make request", () ->
+                given()
+                        .spec(updateRequestSpec)
+                        .body(requestBody)
+                        .when()
+                        .post("users/2")
+                        .then()
+                        .spec(updateResponseSpec)
+                        .extract().as(UserResponseLombokModel.class));
+        step("Check response", () ->
+        {
+            assertEquals("morpheus", updateResponse.getName());
+            assertEquals("zion resident", updateResponse.getJob());
+        });
+
+    }
+}
