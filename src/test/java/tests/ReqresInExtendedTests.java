@@ -18,12 +18,12 @@ public class ReqresInExtendedTests extends TestBase {
         });
         RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
                 given()
-                        .spec(registerRequestSpec)
+                        .spec(RequestSpec)
                         .body(requestBody)
                         .when()
                         .post("register")
                         .then()
-                        .spec(registerResponseSpec)
+                        .spec(response200Spec)
                         .extract().as(RegistrationResponseLombokModel.class));
         step("Check response", () -> {
             assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken());
@@ -38,12 +38,12 @@ public class ReqresInExtendedTests extends TestBase {
         step("Prepare test data", () -> requestBody.setEmail("eve.holt@reqres.in"));
         RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
                 given()
-                        .spec(registerRequestSpec)
+                        .spec(RequestSpec)
                         .body(requestBody)
                         .when()
                         .post("register")
                         .then()
-                        .spec(unsuccessRegisterResponseSpec)
+                        .spec(response400Spec)
                         .extract().as(RegistrationResponseLombokModel.class));
         step("Check response", () -> assertEquals("Missing password", registrationResponse.getError()));
 
@@ -59,12 +59,12 @@ public class ReqresInExtendedTests extends TestBase {
         });
         LoginResponseLombokModel loginResponse = step("Make request", () ->
                 given()
-                        .spec(loginRequestSpec)
+                        .spec(RequestSpec)
                         .body(requestBody)
                         .when()
                         .post("login")
                         .then()
-                        .spec(loginResponseSpec)
+                        .spec(response200Spec)
                         .extract().as(LoginResponseLombokModel.class));
         step("Check response", () -> assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken()));
     }
@@ -79,12 +79,12 @@ public class ReqresInExtendedTests extends TestBase {
         });
         UserResponseLombokModel createResponse = step("Make request", () ->
                 given()
-                        .spec(createRequestSpec)
+                        .spec(RequestSpec)
                         .body(requestBody)
                         .when()
                         .post("users")
                         .then()
-                        .spec(createResponseSpec)
+                        .spec(response201Spec)
                         .extract().as(UserResponseLombokModel.class));
         step("Check response", () ->
         {
@@ -104,12 +104,12 @@ public class ReqresInExtendedTests extends TestBase {
         });
         UserResponseLombokModel updateResponse = step("Make request", () ->
                 given()
-                        .spec(updateRequestSpec)
+                        .spec(RequestSpec)
                         .body(requestBody)
                         .when()
                         .post("users/2")
                         .then()
-                        .spec(updateResponseSpec)
+                        .spec(response201Spec)
                         .extract().as(UserResponseLombokModel.class));
         step("Check response", () ->
         {
