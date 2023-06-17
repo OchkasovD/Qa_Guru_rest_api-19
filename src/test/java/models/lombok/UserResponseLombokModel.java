@@ -7,8 +7,4 @@ public class UserResponseLombokModel {
     String name, job, id, createdAt;
 
 
-
-
-
-
 }

@@ -1,11 +1,13 @@
 package tests;
+
 import models.lombok.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static io.restassured.RestAssured.given;
 import static io.qameta.allure.Allure.step;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.specs.*;
+import static specs.Specs.*;
 
 public class ReqresInExtendedTests extends TestBase {
     @Test
@@ -18,7 +20,7 @@ public class ReqresInExtendedTests extends TestBase {
         });
         RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
                 given()
-                        .spec(RequestSpec)
+                        .spec(requestSpec)
                         .body(requestBody)
                         .when()
                         .post("register")
@@ -38,7 +40,7 @@ public class ReqresInExtendedTests extends TestBase {
         step("Prepare test data", () -> requestBody.setEmail("eve.holt@reqres.in"));
         RegistrationResponseLombokModel registrationResponse = step("Make request", () ->
                 given()
-                        .spec(RequestSpec)
+                        .spec(requestSpec)
                         .body(requestBody)
                         .when()
                         .post("register")
@@ -59,7 +61,7 @@ public class ReqresInExtendedTests extends TestBase {
         });
         LoginResponseLombokModel loginResponse = step("Make request", () ->
                 given()
-                        .spec(RequestSpec)
+                        .spec(requestSpec)
                         .body(requestBody)
                         .when()
                         .post("login")
@@ -79,7 +81,7 @@ public class ReqresInExtendedTests extends TestBase {
         });
         UserResponseLombokModel createResponse = step("Make request", () ->
                 given()
-                        .spec(RequestSpec)
+                        .spec(requestSpec)
                         .body(requestBody)
                         .when()
                         .post("users")
@@ -104,7 +106,7 @@ public class ReqresInExtendedTests extends TestBase {
         });
         UserResponseLombokModel updateResponse = step("Make request", () ->
                 given()
-                        .spec(RequestSpec)
+                        .spec(requestSpec)
                         .body(requestBody)
                         .when()
                         .post("users/2")
