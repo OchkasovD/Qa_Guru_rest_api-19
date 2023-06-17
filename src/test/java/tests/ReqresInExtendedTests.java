@@ -94,7 +94,6 @@ public class ReqresInExtendedTests extends TestBase {
 
     }
 
-
     @Test
     @DisplayName("UPDATE")
     void updateUserLombokModelsTest() {
